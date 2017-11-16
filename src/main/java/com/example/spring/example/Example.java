@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @EnableAutoConfiguration
 public class Example {
 
-    @RequestMapping("/")
+    @GetMapping("/")
     String home() {
         return "Hello World!";
     }
