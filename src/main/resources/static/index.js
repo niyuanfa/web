@@ -58,10 +58,12 @@ function forget() {
     });
 }
 function all() {
+    var userName = document.getElementById('userName').value
+    var password = document.getElementById('password').value
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/all',
-        data: {},
+        data: { },
         complete: function (xhr, status) {
             if (status == 'success') {
                console.log(xhr.responseText)
