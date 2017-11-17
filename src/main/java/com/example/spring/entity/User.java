@@ -1,8 +1,9 @@
 package com.example.spring.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 /**
  * 账号实体
  *
@@ -10,18 +11,32 @@ import java.io.Serializable;
  * @myblog  http://www.2568554895.com
  * @create    2017年11月17日
  */
+@Entity
+public class User {
+        //id自增
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private Long id;
+        private String username;
+        private String password;
+        public User() {
+        }
+        public User(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+        public void setUserName(String userName) {
+         this.username=userName;
+        };
+        public String getUserName(){
+        return username;
+        };
+        public void setPassword(String password) {
+        this.password=password;
+        };
+        public String getPassword(){
+        return password;
+        };
 
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-public class User implements Serializable  {
-    private static final long serialVersionUID = 2120869894112984147L;
-    private String UserName;
-    private int Password;
-    public String setUserName(String userName) {
-        System.out.println(userName);
-        return this.UserName=userName;
-    };
-    public int setPassword(int password) {
-        System.out.println(password);
-        return this.Password=password;
-    };
+
 }

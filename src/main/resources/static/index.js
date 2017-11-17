@@ -4,15 +4,15 @@ function login() {
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/finduser',
-        data: {userName:JSON.stringify(userName)},
+        data: {username:userName},
         complete: function (xhr, status) {
             if (status == 'success') {
-                 password="\""+password+"\""
-                console.log(password)
-                if(password== xhr.responseText){
+                console.log(xhr.responseText)
+                if(password==xhr.responseText[0].password){
                     alert("登录成功")
                 }
                 else{
+                    console.log(xhr.responseText[0].password)
                     alert("登录失败")
                 }
             } else if (status == 'error') {
@@ -23,14 +23,14 @@ function login() {
 
 }
 function logout() {
-    var userName = document.getElementById('userName').value
+    var username = document.getElementById('userName').value
     var password = document.getElementById('password').value
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/saveUser',
         data: {
-            'userName': JSON.stringify(userName),
-            'password': JSON.stringify(password),
+            'username': username,
+            'password': password,
         },
         complete: function (xhr, status) {
             if (status == 'success') {
@@ -40,17 +40,16 @@ function logout() {
             }
         }
     });
-
 }
 function forget() {
     var userName = document.getElementById('userName').value
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/finduser',
-        data: {userName:JSON.stringify(userName)},
+        data: {username:userName},
         complete: function (xhr, status) {
             if (status == 'success') {
-                alert("该用户密码为"+xhr.responseText)
+                alert("该用户密码为"+xhr.responseText[0].password)
             } else if (status == 'error') {
 
             }
@@ -61,7 +60,7 @@ function all() {
     var userName = document.getElementById('userName').value
     var password = document.getElementById('password').value
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: 'http://localhost:8080/all',
         data: { },
         complete: function (xhr, status) {
