@@ -1,10 +1,12 @@
 package com.example.spring.controll;
 
 import com.example.spring.repository.UserRepository;
+import org.springframework.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.spring.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +29,15 @@ public class UserControll {
     @PostMapping("/saveUser")
     @ResponseBody
     public User SaveUser(@RequestParam(value = "username", required = false, defaultValue = "") String username,
-                           @RequestParam(value = "password", required = false, defaultValue = "") String password){
+                           @RequestParam(value = "password", required = false, defaultValue = "") String password) throws Exception {
         User user=new User(username,password);
+        if(StringUtils.isEmpty(username)){
+            throw new  NullPointerException("用户名不能为空");}
+            List list=this.finduser(username);
+        if(!CollectionUtils.isEmpty(list)){
+                throw new  NullPointerException("该用户已存在");
+        }
+
         return userRepository.save(user);
     }
 
@@ -47,9 +56,7 @@ public class UserControll {
      }
     @PostMapping("/finduser")
     @ResponseBody
-    public List<User> finduser(@RequestParam(value = "username",required = true,defaultValue = "")String username) {
-
-
+    public List<User> finduser(@RequestParam(value = "username",required = true,defaultValue = "")String username) throws Exception {
            return userRepository.findByUsername(username);
     }
 

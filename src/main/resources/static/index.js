@@ -4,18 +4,21 @@ function login() {
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/finduser',
-        data: {username:userName},
+        data: {
+            username:userName,
+        },
         complete: function (xhr, status) {
             if (status == 'success') {
                 console.log(xhr.responseText)
-                if(password==xhr.responseText[0].password){
+                var res=JSON.parse(xhr.responseText)
+                if(password==res[0].password){
                     alert("登录成功")
                 }
                 else{
                     console.log(xhr.responseText[0].password)
                     alert("登录失败")
                 }
-            } else if (status == 'error') {
+             } else if (status == 'error') {
                 alert(error(e))
             }
         }
@@ -36,7 +39,7 @@ function logout() {
             if (status == 'success') {
                 alert("注册成功")
             } else if (status == 'error') {
-
+                alert(JSON.parse(xhr.responseText).message)
             }
         }
     });
@@ -49,14 +52,15 @@ function forget() {
         data: {username:userName},
         complete: function (xhr, status) {
             if (status == 'success') {
-                alert("该用户密码为"+xhr.responseText[0].password)
+                var res=JSON.parse(xhr.responseText)
+                alert("该用户密码为"+res[0].password)
             } else if (status == 'error') {
 
             }
         }
     });
 }
-function all() {
+function every() {
     var userName = document.getElementById('userName').value
     var password = document.getElementById('password').value
     $.ajax({
